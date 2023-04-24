@@ -3,117 +3,130 @@
 #include <stdio.h>
 
 /**
- * PrintArray - prints array of integers for range of indicies
- * @array: array of values to be printed
- * @iBeg: starting index value
- * @iEnd: ending index value
+ * print_left_right - print left and right partitions
+ * @array: array
+ * @size: size of second array
+ * @first: initial position
+ * @mid: middle position
  */
-void PrintArray(int *array, int iBeg, int iEnd)
+void print_left_right(int *array, int size, int first, int mid)
 {
-	int i;
-
-	for (i = iBeg; i < iEnd; i++)
-		if (i < iEnd - 1)
-			printf("%i, ", array[i]);
-		else
-			printf("%i\n", array[i]);
-}
-
-/**
- * CopyArray - simple 1 for 1 copy of source[] to dest[]
- * @source: array of values to be sorted
- * @iBeg: starting index value
- * @iEnd: ending index value
- * @dest: array to store sorted integers
- */
-void CopyArray(int *source, int iBeg, int iEnd, int *dest)
-{
-	int i;
-
-	for (i = iBeg; i < iEnd; i++)
-		dest[i] = source[i];
-}
-
-/**
- * TopDownMerge - sorts subsections ("runs") of source[] by ascending value
- * @source: array of values to be sorted
- * @iBeg: left run starting index value
- * @iMid: right run starting index value
- * @iEnd: right run ending index value
- * @dest: array to store sorted integers
- */
-void TopDownMerge(int *source, int iBeg, int iMid, int iEnd, int *dest)
-{
-	int i, j, k;
-
-	i = iBeg, j = iMid;
+	int k;
 
 	printf("Merging...\n");
 	printf("[left]: ");
-	PrintArray(source, iBeg, iMid);
-	printf("[right]: ");
-	PrintArray(source, iMid, iEnd);
-	/* While there are elements in the left or right runs... */
-	for (k = iBeg; k < iEnd; k++)
+	k = first;
+	while (k < mid)
 	{
-		/* If left run head exists and is <= existing right run head */
-		if (i < iMid && (j >= iEnd || source[i] <= source[j]))
+		if (k != mid - 1)
+			printf("%d, ", array[k]);
+		else
+			printf("%d\n", array[k]);
+		k++;
+	}
+
+	printf("[right]: ");
+	k = mid;
+	while (k < size)
+	{
+		if (k < size - 1)
+			printf("%d, ", array[k]);
+		else
+			printf("%d\n", array[k]);
+		k++;
+	}
+}
+
+/**
+ * merge - merge the values in the position of array
+ * @array: first array
+ * @size: size of second array
+ * @cpy: copy of array
+ * @first: initial position
+ * @mid: middle position
+ * first one of the second array
+ */
+void merge(int *array, int size, int first, int mid, int *cpy)
+{
+	int i, j, k;
+
+	print_left_right(array, size, first, mid);
+
+	i = first;
+	j = mid;
+
+	printf("[Done]: ");
+	k = first;
+	while (k < size)
+	{
+		if (i < mid && (j >= size || array[i] <= array[j]))
 		{
-			dest[k] = source[i];
+			cpy[k] = array[i];
 			i++;
 		}
 		else
 		{
-			dest[k] = source[j];
+			cpy[k] = array[j];
 			j++;
 		}
+		if (k < size - 1)
+			printf("%d, ", cpy[k]);
+		else
+			printf("%d\n", cpy[k]);
+		k++;
 	}
-	printf("[Done]: ");
-	PrintArray(dest, iBeg, iEnd);
 }
-
 /**
- * TopDownSplitMerge - recursive engine of merge_sort, splits working copy of
- * array into left and right runs, then merges with TopDownMerge
- * @source: array of integers to be sorted
- * @iBeg: starting index value
- * @iEnd: ending index value
- * @dest: array to store sorted integers
+ * mergeSort - array separator
+ * @cpy: copy of array
+ * @first: initial position
+ * @size: size of the original  array
+ * @array: the original array
  */
-void TopDownSplitMerge(int *source, int iBeg, int iEnd, int *dest)
+void mergeSort(int *cpy, int first, int size, int *array)
 {
-	int iMid;
+	int mid;
 
-	if (iEnd - iBeg < 2) /* if run size == 1 */
-		return;     /* consider it sorted */
-	/* split the run longer than 1 item into halves */
-	iMid = (iEnd + iBeg) / 2;
+	if (size - first < 2)
+		return;
 
-	TopDownSplitMerge(dest, iBeg, iMid, source);  /* sort left run */
-	TopDownSplitMerge(dest, iMid, iEnd, source);  /* sort right run */
-	/* merge the resulting runs from array[] into work_copy[] */
-	TopDownMerge(source, iBeg, iMid, iEnd, dest);
+	mid = (size + first) / 2;
+
+	mergeSort(array, first, mid, cpy);
+	mergeSort(array, mid, size, cpy);
+
+	merge(cpy, size, first, mid, array);
+}
+/**
+ * copy_array - copy array of int
+ * @arr: array src
+ * @cpy: array dest
+ * @size : array size
+ */
+void copy_array(int *arr, int *cpy, int size)
+{
+	int i;
+
+	for (i = 0; i < (int)size; i++)
+		cpy[i] = arr[i];
 }
 
 /**
- * merge_sort - sorts an array of integers in ascending order using a
- * top-down merge sort algorithm
- * @array: array of integers to be sorted
- * @size: amount of elements in array
+ * merge_sort - create partition and copy
+ * @array: array
+ * @size : array size
  */
 void merge_sort(int *array, size_t size)
 {
-	int *work_copy;
+	int *cpy;
 
-	if (!array || size < 2)
+	cpy = malloc(sizeof(int) * size - 1);
+
+	if (cpy == NULL)
 		return;
 
-	work_copy = malloc(sizeof(int) * size);
-	if (!work_copy)
-		return;
+	copy_array(array, cpy, size);
 
-	CopyArray(array, 0, size, work_copy);
-	TopDownSplitMerge(work_copy, 0, size, array);
-
-	free(work_copy);
+	mergeSort(cpy, 0, size, array);
+	free(cpy);
 }
