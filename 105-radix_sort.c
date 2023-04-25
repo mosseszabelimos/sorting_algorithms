@@ -1,5 +1,6 @@
-#include <stdlib.h>
 #include "sort.h"
+
+
 /**
  * csort2 - auxiliary function of radix sort
  *
@@ -39,6 +40,8 @@ void csort2(int *array, int **buff, int size, int lsd)
 
 	print_array(array, size);
 }
+
+
 /**
  * csort - auxiliary function of radix sort
  *
@@ -84,6 +87,8 @@ void csort(int *array, int size, int lsd)
 			free(buff[i]);
 	free(buff);
 }
+
+
 /**
  * radix_sort - sorts an array of integers in ascending order using the Radix
  * sort algorithm
