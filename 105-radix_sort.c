@@ -1,68 +1,63 @@
 #include "sort.h"
+
+
 /**
- * max_val - gets max value from array
- * @array: pointer to array
- * @size: size of the array
- * Return: max value from array
+ * counting_sort_radix - Modified counting sort for use in radix sort.
+ * @array: The array to sort.
+ * @size: The size of the array.
+ * @exp: The current digit (10^exp) to sort by.
+ * @count: The count array for counting sort.
  */
-int max_val(int *array, size_t size)
+void counting_sort_radix(int *array, size_t size, int exp, int *count)
 {
-	int max = array[0];
+	int *output = malloc(sizeof(int) * size);
 	size_t i;
 
+	for (i = 0; i < 10; i++)
+		count[i] = 0;
+
 	for (i = 0; i < size; i++)
+		count[(array[i] / exp) % 10]++;
+
+	for (i = 1; i < 10; i++)
+		count[i] += count[i - 1];
+
+	for (i = size - 1; i != SIZE_MAX; i--)
 	{
-		if (array[i] > max)
-			max = array[i];
+		output[count[(array[i] / exp) % 10] - 1] = array[i];
+		count[(array[i] / exp) % 10]--;
 	}
-	return (max);
+
+	for (i = 0; i < size; i++)
+		array[i] = output[i];
+
+	free(output);
 }
+
+
 /**
- * radix_sort - sorts an array of integers is ASC
- * order implementing Radix Sort algorithm
- * @array: pointer to array
- * @size: size of the array
+ * radix_sort - Radix sort an array of integers.
+ * @array: The array to sort.
+ * @size: The size of the array.
  */
 void radix_sort(int *array, size_t size)
 {
-	int *new_arr;
-	int i, max, e = 1;
-	int tam = size;
+	int max = 0;
+	int exp;
+	size_t i;
+	int count[10];
 
-	if (!array || size < 2)
+	if (size < 2)
 		return;
 
-	max = max_val(array, size);
+	for (i = 0; i < size; i++)
+		if (array[i] > max)
+			max = array[i];
 
-	new_arr = malloc(sizeof(int) * size);
-	while (max / e > 0)
+	for (exp = 1; max / exp > 0; exp *= 10)
 	{
-		int brews[20] = {0};
-
-		i = 0;
-
-		while (i < tam)
-		{
-			brews[(array[i] / e) % 10]++;
-			i++;
-		}
-
-		if (brews != NULL)
-		{
-			for (i = 1; i < 10; i++)
-				brews[i] += brews[i - 1];
-
-			for (i = tam - 1; i >= 0; i--)
-			{
-				new_arr[brews[(array[i] / e) % 10] - 1] = array[i];
-				brews[(array[i] / e) % 10]--;
-			}
-
-			for (i = 0; i < tam; i++)
-				array[i] = new_arr[i];
-		}
-		e *= 10;
+		counting_sort_radix(array, size, exp, count);
 		print_array(array, size);
 	}
-	free(new_arr);
 }
+
