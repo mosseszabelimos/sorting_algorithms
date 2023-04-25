@@ -1,5 +1,9 @@
 #ifndef DECK_H
 #define DECK_H
+
+
+#include <stdio.h>
+
 /*Structs*/
 /**
  * enum kind_e - Card suit
@@ -16,6 +20,7 @@ typedef enum kind_e
 	DIAMOND
 } kind_t;
 
+
 /**
  * struct card_s - Playing card
  *
@@ -28,6 +33,7 @@ typedef struct card_s
 	const char *value;
 	const kind_t kind;
 } card_t;
+
 
 /**
  * struct deck_node_s - Deck of card
@@ -42,6 +48,14 @@ typedef struct deck_node_s
 	struct deck_node_s *prev;
 	struct deck_node_s *next;
 } deck_node_t;
+
+
 /*Prototypes*/
 void sort_deck(deck_node_t **deck);
+void sort_suit(deck_node_t **deck);
+void sort_val(deck_node_t **deck);
+void swap(deck_node_t **deck, deck_node_t *card1, deck_node_t *card2);
+int vcmp(const card_t *card1, const card_t *card2);
+
+
 #endif

@@ -1,10 +1,5 @@
 #include "deck.h"
 
-#include <stdio.h>
-void sort_suit(deck_node_t **deck);
-void sort_val(deck_node_t **deck);
-void swap(deck_node_t **deck, deck_node_t *card1, deck_node_t *card2);
-int vcmp(const card_t *card1, const card_t *card2);
 /**
  * sort_deck - sorts a 52 card deck
  * @deck: deck to sort
@@ -18,6 +13,7 @@ void sort_deck(deck_node_t **deck)
 	sort_suit(deck);
 	sort_val(deck);
 }
+
 
 /**
  * sort_suit - sorts a 52 card deck by suit
@@ -39,6 +35,7 @@ void sort_suit(deck_node_t **deck)
 	}
 }
 
+
 /**
  * sort_val - sorts a 52 card deck staticly by value
  * @deck: deck to sort
@@ -59,6 +56,8 @@ void sort_val(deck_node_t **deck)
 		}
 	}
 }
+
+
 /**
  * swap - swaps 2 consecutive cards of a doubly linked list
  * Used in the insertion algorithm
@@ -84,6 +83,7 @@ void swap(deck_node_t **deck, deck_node_t *card1, deck_node_t *card2)
 	if (next)
 		next->prev = card1;
 }
+
 
 /**
  * vcmp - compares 2 card values
