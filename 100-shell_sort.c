@@ -2,7 +2,7 @@
 
 /**
  * shell_sort - Sorts an array of integers in ascending order using the
- *              Shell sort algorithm with the Knuth sequence
+ * Shell sort algorithm with the Knuth sequence
  * @array: The array of integers to sort
  * @size: The size of the array
  */
