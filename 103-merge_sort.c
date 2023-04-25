@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "sort.h"
 
 /**
@@ -18,6 +16,8 @@ void copy(int *src, int *dst, int size)
 	for (i = 0; i < size; i++)
 		dst[i] = src[i];
 }
+
+
 /**
  * merge - merges two sets of data in ascending order
  * but they must already be sorted before hand
@@ -47,6 +47,8 @@ void merge(int *array, int *buff, int minL, int maxL, int minR, int maxR)
 		else
 			array[k] = buff[i], k++, i++;
 }
+
+
 /**
  * printcheck - prints an array in a given range
  *
@@ -68,6 +70,8 @@ void printcheck(int *array, int r1, int r2)
 	}
 	printf("\n");
 }
+
+
 /**
  * split - recursive function to split data into merge tree
  *
@@ -117,6 +121,8 @@ void split(int *array, int *buff, int min, int max, int size)
 	printf("[Done]: ");
 	printcheck(array, minL, maxR);
 }
+
+
 /**
  * merge_sort - sorts an array of integers in ascending order
  * using the Merge sort algorithm
