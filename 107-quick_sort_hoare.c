@@ -1,4 +1,6 @@
 #include "sort.h"
+
+
 /**
 *swap - the positions of two elements into an array
 *@array: array
@@ -13,6 +15,8 @@ void swap(int *array, ssize_t item1, ssize_t item2)
 	array[item1] = array[item2];
 	array[item2] = tmp;
 }
+
+
 /**
  *hoare_partition - hoare partition sorting scheme implementation
  *@array: array
@@ -41,6 +45,8 @@ int hoare_partition(int *array, int first, int last, int size)
 		print_array(array, size);
 	}
 }
+
+
 /**
  *qs - qucksort algorithm implementation
  *@array: array
@@ -59,6 +65,8 @@ void qs(int *array, ssize_t first, ssize_t last, int size)
 		qs(array, position, last, size);
 	}
 }
+
+
 /**
  *quick_sort_hoare - prepare the terrain to quicksort algorithm
  *@array: array
