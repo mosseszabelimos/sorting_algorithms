@@ -1,5 +1,6 @@
 #include "sort.h"
-#include <stdio.h>
+
+
 /**
  * swap - change two values in ascending or descending order
  * @arr: array
@@ -18,6 +19,8 @@ void swap(int arr[], int item1, int item2, int order)
 		arr[item2] = temp;
 	}
 }
+
+
 /**
  * merge - sort bitonic sequences recursively in both orders
  * @arr: array
@@ -38,6 +41,8 @@ void merge(int arr[], int low, int nelemnt, int order)
 		merge(arr, low + mid, mid, order);
 	}
 }
+
+
 /**
  * bitonicsort - bitonic sort algorithm implementation
  * @arr: array
@@ -78,6 +83,8 @@ void bitonicsort(int arr[], int low, int nelemnt, int order, int size)
 		}
 	}
 }
+
+
 /**
  * bitonic_sort - prepare the terrain to bitonic sort algorithm
  * @array: array
